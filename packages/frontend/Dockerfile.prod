@@ -1,0 +1,15 @@
+# builder stage
+FROM node:14-alpine as builder
+# as builder : 시작하는 FROM부터, 다음 FROM 까지 builder stage 임을 명시
+
+WORKDIR /usr/src/app
+
+COPY package.json .
+COPY package-lock.json ./
+
+RUN npm install --silent
+
+# 로컬에 node_module 있으면 지워줄 것
+COPY ./ ./
+
+RUN npm run build
